@@ -26,6 +26,11 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+var datetime = new Date();
+console.log(datetime);
+document.getElementById("currentDay").textContent = datetime; //it will print on html page
+
 var currentHour = new Date().getHours();
 console.log(currentHour)
 
@@ -40,4 +45,25 @@ $(".time-block").each(function () {
   } else {
     $(this).addClass("future");
   }
+});
+
+const saveButtons = document.querySelectorAll('.saveBtn');
+
+saveButtons.forEach(saveButton => {
+  saveButton.addEventListener('click', function() {
+    const userInput = this.previousElementSibling.value;
+    const timeBlockId = this.parentNode.id;
+    localStorage.setItem(timeBlockId, userInput);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const timeBlocks = document.querySelectorAll('.time-block');
+  
+  timeBlocks.forEach(timeBlock => {
+    const userInput = localStorage.getItem(timeBlock.id);
+    if (userInput) {
+      timeBlock.querySelector('.description').value = userInput;
+    }
+  });
 });
